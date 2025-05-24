@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ocean-green: #00b4a0;
+            --deep-purple: #5a2d8c;
+            --gold-accent: #ffd700;
+            --white: #ffffff;
+            --pink: #ff6b9e;
+            --dark-blue: #0f0526;
+            --happy-blue: #4fc3f7;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--ocean-green) 0%, var(--deep-purple) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            color: var(--white);
+            position: relative;
+        }
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .anniversary-container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 800px;
+            perspective: 1000px;
+        }
+        .anniversary-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .anniversary-card:hover {
+            transform: rotateY(5deg) rotateX(3deg) scale(1.02);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5);
+        }
+        .anniversary-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .english-text {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--gold-accent);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+        .persian-text {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--white);
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            line-height: 1.2;
+        }
+        .anniversary-message {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 20px 0;
+            opacity: 0.9;
+        }
+        .anniversary-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .anniversary-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            font-weight: 600;
+            letter-spacing: 1px;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .anniversary-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--gold-accent);
+            opacity: 0;
+            z-index: 3;
+        }
+        .hearts {
+            position: absolute;
+            z-index: 0;
+            font-size: 20px;
+            color: var(--pink);
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        .bubbles {
+            position: absolute;
+            z-index: 0;
+            font-size: 20px;
+            color: var(--happy-blue);
+            pointer-events: none;
+            animation: bubble-float 8s ease-in-out infinite;
+        }
+        .custom-moon {
+            position: fixed;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            right: 40px;
+            top: 40px;
+            z-index: 5;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            animation: glow 3s ease-in-out infinite alternate;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .custom-moon:hover {
+            transform: scale(1.08) rotate(8deg);
+        }
+        .moon-image {
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s ease;
+        }
+        .custom-moon:hover .moon-image {
+            transform: scale(1.03) rotate(-3deg);
+        }
+        .music-control {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        .music-control:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1) rotate(12deg);
+        }
+        .music-control i {
+            font-size: 1.1rem;
+            color: white;
+            transition: transform 0.2s ease;
+        }
+        .music-control:hover i {
+            transform: scale(1.1);
+        }
+        .days-counter {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 30px;
+            border-radius: 50px;
+            margin: 15px 0;
+            display: inline-block;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+        }
+        .days-counter:hover {
+            transform: scale(1.03) rotate(1deg);
+        }
+        .days-counter::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+        }
+        .days-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--gold-accent);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+            position: relative;
+        }
+        .days-label {
+            font-size: 1.2rem;
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+        .milestone-message {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: var(--gold-accent);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .milestone-message:hover {
+            transform: scale(1.02);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            25% { transform: translateY(-10px) rotate(3deg) scale(1.03); }
+            50% { transform: translateY(-20px) rotate(6deg) scale(1.06); }
+            75% { transform: translateY(-10px) rotate(3deg) scale(1.03); }
+            100% { transform: translateY(0) rotate(0deg) scale(1); }
+        }
+        @keyframes bubble-float {
+            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.8; }
+            25% { transform: translateY(-15px) rotate(5deg) scale(1.1); opacity: 1; }
+            50% { transform: translateY(-30px) rotate(10deg) scale(1.2); opacity: 0.9; }
+            75% { transform: translateY(-15px) rotate(5deg) scale(1.1); opacity: 0.95; }
+            100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.8; }
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); }
+            to { box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
+        }
+        @keyframes shine {
+            0% { transform: rotate(30deg) translate(-10%, -10%); }
+            100% { transform: rotate(30deg) translate(10%, 10%); }
+        }
+        @media (max-width: 768px) {
+            .english-text {
+                font-size: 1.5rem;
+            }
+            .persian-text {
+                font-size: 2rem;
+            }
+            .anniversary-card {
+                padding: 20px 15px;
+            }
+            .anniversary-footer {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .custom-moon {
+                width: 80px;
+                height: 80px;
+                right: 15px;
+                top: 15px;
+            }
+            .days-number {
+                font-size: 2.5rem;
+            }
+            .days-label {
+                font-size: 1rem;
+            }
+            .milestone-message {
+                font-size: 1rem;
+            }
+            .anniversary-message {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="custom-moon">
+        <img src="images/moon.jpg" alt="عکس ماه" class="moon-image" id="moon-image">
+    </div>
+    <div class="anniversary-container">
+        <div class="anniversary-card animate__animated animate__zoomIn">
+            <div class="anniversary-title">
+                <div class="english-text animate__animated animate__fadeInDown animate__delay-1s">Happy our 4th month being together</div>
+                <div class="english-text animate__animated animate__fadeInUp animate__delay-1-5s">I 💜💙 YOU Sahar'm</div>
+            </div>
+            <div class="days-counter animate__animated animate__fadeIn animate__delay-2s">
+                <div class="days-number">120</div>
+                <div class="days-label">Days</div>
+            </div>
+            <div class="milestone-message animate__animated animate__fadeIn animate__delay-2s">
+                120 روزه که منو تبدیل به خوشبخت ترین ادم جهان کردی!
+            </div>
+            <div class="anniversary-message animate__animated animate__fadeIn animate__delay-2s">
+                <p>خیلی خوشحالم که دارمت دختر کوچولوی من</p>
+                <p>امیدوارم روزهای پیش رو هم پر از شادی و عشق و حال خوب باهم داشته باشیم</p>
+                <p>تو بهترین اتفاق زندگیمی</p>
+
+            </div>
+            <div class="anniversary-footer animate__animated animate__fadeInUp animate__delay-2-5s">
+                <button class="anniversary-btn" id="confetti-btn">
+                    <i class="fas fa-sparkles"></i> پرتاب کنفتی
+                </button>
+                <button class="anniversary-btn" id="hearts-btn">
+                    <i class="fas fa-heart"></i> قلب‌ها
+                </button>
+                <button class="anniversary-btn" id="bubbles-btn">
+                    <i class="fas fa-water"></i> حباب‌ها
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="music-control" id="music-control">
+        <i class="fas fa-music"></i>
+    </div>
+    <audio id="anniversary-music" loop>
+        <source src="audio/song.mp3" type="audio/mpeg">
+        <source src="audio/song.ogg" type="audio/ogg">
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle",
+                    stroke: {
+                        width: 0,
+                        color: "#000000"
+                    }
+                },
+                opacity: {
+                    value: 0.6,
+                    random: true,
+                    anim: {
+                        enable: false,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: false,
+                        speed: 40,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 100,
+                    color: "#ffffff",
+                    opacity: 0.3,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1.5,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "repulse"
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 120,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 300,
+                        size: 30,
+                        duration: 2,
+                        opacity: 8,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 80,
+                        duration: 0.3
+                    },
+                    push: {
+                        particles_nb: 3
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        const musicControl = document.getElementById('music-control');
+        const anniversaryMusic = document.getElementById('anniversary-music');
+        let isPlaying = false;
+        musicControl.addEventListener('click', () => {
+            if (isPlaying) {
+                anniversaryMusic.pause();
+                musicControl.innerHTML = '<i class="fas fa-music"></i>';
+            } else {
+                anniversaryMusic.play();
+                musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        const confettiBtn = document.getElementById('confetti-btn');
+        confettiBtn.addEventListener('click', () => {
+            createConfetti();
+        });
+
+        function createConfetti() {
+            const colors = ['#00b4a0', '#5a2d8c', '#ffd700', '#ff6b9e', '#a29bfe'];
+            for (let i = 0; i < 120; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.width = Math.random() * 10 + 4 + 'px';
+                confetti.style.height = Math.random() * 10 + 4 + 'px';
+                document.body.appendChild(confetti);
+                let animation = confetti.animate([
+                    { top: -10 + 'px', opacity: 1, transform: `rotate(0deg)` },
+                    { top: 100 + 'vh', opacity: 0, transform: `rotate(${Math.random() * 720}deg)` }
+                ], {
+                    duration: Math.random() * 2500 + 1500,
+                    easing: 'cubic-bezier(0.2, 0.8, 0.4, 1)'
+                });
+                animation.onfinish = () => {
+                    confetti.remove();
+                };
+            }
+        }
+
+        const heartsBtn = document.getElementById('hearts-btn');
+        heartsBtn.addEventListener('click', createHearts);
+
+        function createHearts() {
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'hearts';
+                heart.innerHTML = '<i class="fas fa-heart"></i>';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.bottom = -50 + 'px';
+                heart.style.opacity = '0.9';
+                heart.style.fontSize = (Math.random() * 20 + 12) + 'px';
+                heart.style.color = `hsl(${Math.random() * 60 + 330}, 100%, 70%)`;
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(heart);
+                let animation = heart.animate([
+                    { bottom: -50 + 'px', transform: 'translateX(0) scale(0.5)' },
+                    { bottom: 100 + 'vh', transform: `translateX(${Math.random() * 80 - 40}px) scale(1.3)` }
+                ], {
+                    duration: Math.random() * 6000 + 4000,
+                    easing: 'cubic-bezier(0.2, 0.8, 0.4, 1)'
+                });
+                animation.onfinish = () => {
+                    heart.remove();
+                };
+            }
+        }
+
+        const bubblesBtn = document.getElementById('bubbles-btn');
+        bubblesBtn.addEventListener('click', createBubbles);
+
+        function createBubbles() {
+            for (let i = 0; i < 30; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubbles';
+                bubble.innerHTML = '<i class="fas fa-circle"></i>';
+                bubble.style.left = Math.random() * 100 + 'vw';
+                bubble.style.bottom = -50 + 'px';
+                bubble.style.opacity = '0.8';
+                bubble.style.fontSize = (Math.random() * 25 + 15) + 'px';
+                bubble.style.color = `hsla(${Math.random() * 60 + 180}, 80%, 70%, 0.7)`;
+                document.body.appendChild(bubble);
+                let animation = bubble.animate([
+                    { bottom: -50 + 'px', transform: 'translateX(0) scale(0.3)', opacity: 0 },
+                    { bottom: '20%', transform: `translateX(${Math.random() * 60 - 30}px) scale(1)`, opacity: 0.9 },
+                    { bottom: 100 + 'vh', transform: `translateX(${Math.random() * 60 - 30}px) scale(0.5)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 8000 + 5000,
+                    easing: 'cubic-bezier(0.2, 0.8, 0.4, 1)'
+                });
+                animation.onfinish = () => {
+                    bubble.remove();
+                };
+            }
+        }
+
+        const moonImage = document.getElementById('moon-image');
+        moonImage.addEventListener('click', function() {
+            const localImages = [
+                'images/Sahar.jpg',
+                'images/Arian.jpg',
+                "images/moon.jpg",
+            ];
+            const randomImage = localImages[Math.floor(Math.random() * localImages.length)];
+            moonImage.src = randomImage;
+            const notification = document.createElement('div');
+            notification.textContent = 'ماه جدید انتخاب شد!';
+            notification.style.position = 'fixed';
+            notification.style.bottom = '80px';
+            notification.style.right = '40px';
+            notification.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+            notification.style.color = 'white';
+            notification.style.padding = '8px 16px';
+            notification.style.borderRadius = '5px';
+            notification.style.zIndex = '100';
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
